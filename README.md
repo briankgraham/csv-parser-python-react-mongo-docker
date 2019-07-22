@@ -10,8 +10,6 @@ After upload, you can view the list of people in a table.
 
 ## How to run:
 
-- Add a `.env` in the root of this directory and add `MONGO_URL=mongo_db`.
-
 - Make sure you have Docker installed on your machine, then run `docker-compose up --build`.
 
 - Once it's built and you haven't made any package changes, etc. you can just run `docker-compose up`.

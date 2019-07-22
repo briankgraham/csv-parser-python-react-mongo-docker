@@ -13,7 +13,7 @@ services:
     links:
       - mongo_db
     env_file:
-      - ./.env
+      - ./backend/.env
     volumes:
       - type: bind
         source: ./backend/api
@@ -38,24 +38,10 @@ services:
     ports:
       - 8080:8080
       - 9229:9229 # for attaching Chrome's inspector to a running node process (app or mocha)
-    env_file:
-      - ./.env
     volumes:
-      # - type: bind
-      #   source: ./client/.env
-      #   target: /container/.env
       - type: bind
         source: ./client/src
         target: /client/src
-      # - type: bind
-      #   source: ./__mocks__
-      #   target: /client/__mocks__
-      # - type: bind
-      #   source: ./config
-      #   target: /client/config
-      # - type: bind
-      #   source: ./docker
-      #   target: /client/docker
       - type: bind
         source: ./client/package.json
         target: /client/package.json

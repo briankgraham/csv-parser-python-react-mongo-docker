@@ -2,17 +2,20 @@ import React, { Component } from 'react'
 
 import { withRouter } from 'react-router-dom'
 
-import Dropzone from 'react-dropzone'
 import Papa from 'papaparse'
 
 import chunk from 'lodash/chunk'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import axios from 'axios'
-import { Button, Dropdown, Form, Icon, Header, Message, Modal, Progress, Step } from 'semantic-ui-react'
+import { Button, Header, Message, Progress } from 'semantic-ui-react'
 
 import Container from '../../common/CommonContainer'
 import Transition from '../../common/Transition'
+
+import ColumnMappingDropdowns from './ColumnMappingDropdowns'
+import FileDropzone from './FileDropzone'
+import UploadModal from './UploadModal'
 
 import { columnMappings } from './fileMappings'
 
@@ -69,7 +72,7 @@ class CsvUploader extends Component {
     })
   }
 
-  drop(acceptedFiles, rejectedFiles) {
+  drop = (acceptedFiles, rejectedFiles) => {
     const error = this.handleDropErrors(acceptedFiles, rejectedFiles)
     this.setState({ error })
     if (error) return
@@ -235,30 +238,7 @@ class CsvUploader extends Component {
             </Transition>
           )}
           <Transition>
-            <React.Fragment>
-              <Header style={{ marginTop: '2rem' }} content="Required Mappings" />
-              {columnMappings.map((mappings, index) => (
-                <Form.Group key={`key-${index}`}>
-                  {(!Array.isArray(mappings) ? [mappings] : mappings).map(({ label, name }) =>
-                    headers.length ? (
-                      <Form.Input fluid label={label} key={label}>
-                        <Dropdown
-                          fluid
-                          key={index}
-                          selection
-                          labeled
-                          options={headers}
-                          label={label}
-                          name={name}
-                          onChange={this.onDropdownChange}
-                          defaultValue={name}
-                        />
-                      </Form.Input>
-                    ) : null
-                  )}
-                </Form.Group>
-              ))}
-            </React.Fragment>
+            <ColumnMappingDropdowns headers={headers} onDropdownChange={this.onDropdownChange} />
           </Transition>
           {Object.keys(mappings).length === REQUIRED_MAPPING_COUNT && !uploadIsComplete && (
             <Transition>
@@ -271,20 +251,7 @@ class CsvUploader extends Component {
       )
     }
 
-    return (
-      <div>
-        <Dropzone
-          onDrop={(acceptedFiles, rejectedFiles) => this.drop(acceptedFiles, rejectedFiles)}
-          className="ui icon message upload-dropzone"
-          activeClassName="ui icon blue message upload-dropzone-active">
-          <i className="csv file outline icon" />
-          <div className="content">
-            <div className="header">Upload CSV</div>
-            <p>Try dropping a file here, or click to select a file to upload.</p>
-          </div>
-        </Dropzone>
-      </div>
-    )
+    return <FileDropzone onDrop={this.drop} />
   }
 
   render() {
@@ -296,36 +263,16 @@ class CsvUploader extends Component {
           {error && <Message error content={error.message} />}
           {this.renderItemsOrUpload()}
         </Container>
-        <Modal open={modalOpen}>
-          <Header content="Import CSV" />
-          <Step.Group attached="bottom">
-            <Step active={!loading}>
-              <Icon name="settings" />
-              <Step.Content>
-                <Step.Title>Mapping</Step.Title>
-                <Step.Description>Configure Data Mapping</Step.Description>
-              </Step.Content>
-            </Step>
-
-            <Step active={loading}>
-              <Icon name="history" />
-              <Step.Content>
-                <Step.Title>Processing</Step.Title>
-                <Step.Description>Automatic Data Processing</Step.Description>
-              </Step.Content>
-            </Step>
-          </Step.Group>
-          <Modal.Content scrolling>
-            {error && <Message error content={error.message} />}
-            {loading ? (
-              <Transition>
-                <Progress active color="blue" percent={(peopleSaved / people.length) * 100} label="Importing" />
-              </Transition>
-            ) : (
-              this.renderItemsOrUpload()
-            )}
-          </Modal.Content>
-        </Modal>
+        <UploadModal open={modalOpen} loading={loading}>
+          {error && <Message error content={error.message} />}
+          {loading ? (
+            <Transition>
+              <Progress active color="blue" percent={(peopleSaved / people.length) * 100} label="Importing" />
+            </Transition>
+          ) : (
+            this.renderItemsOrUpload()
+          )}
+        </UploadModal>
       </React.Fragment>
     )
   }
