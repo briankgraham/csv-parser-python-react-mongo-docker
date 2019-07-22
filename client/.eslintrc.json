@@ -1,0 +1,61 @@
+{
+  "extends": [
+    "airbnb-base",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended"
+  ],
+
+  "parser": "babel-eslint",
+
+  "plugins": [
+    "eslint-plugin-react",
+    "eslint-plugin-import"
+  ],
+
+  "rules": {
+    "arrow-parens": ["error", "as-needed"],
+    "import/no-extraneous-dependencies": ["off"],
+    "import/extensions": ["off"],
+    "class-methods-use-this": ["off"],
+    "max-len": ["error", 140, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false
+    }],
+    "semi": ["error", "never"],
+    "comma-dangle": ["error", "never"],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "no-console": "error",
+    "default-case": "off",
+    "camelcase": "off",
+    "function-paren-newline": "off",
+    "import/no-unresolved": "off",
+    "no-shadow": "off",
+    "consistent-return": "off",
+    "radix": "off",
+    "no-confusing-arrow": "off",
+    "object-curly-newline": "off",
+    "import/no-named-as-default": "off",
+    "react/jsx-uses-vars": "warn",
+    "react/jsx-uses-react": "error",
+    "react/react-in-jsx-scope": "error",
+    "react/jsx-closing-bracket-location": "off",
+    "react/jsx-no-bind": "off"
+  },
+
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module",
+    "experimentalObjectRestSpread": true
+  },
+
+  "globals": {
+    "__DEV__": false,
+    "STAGE": true,
+    "DEV_HOSTNAME": true
+  },
+
+  "env": {
+    "browser": true,
+    "mocha": true
+  }
+}

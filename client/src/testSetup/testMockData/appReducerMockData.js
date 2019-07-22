@@ -1,0 +1,2 @@
+/* eslint-disable */
+// ENTER ANY MOCK REDUCER DATA THATS NEEDED

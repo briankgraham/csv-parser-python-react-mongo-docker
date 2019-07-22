@@ -1,0 +1,7 @@
+Flask==0.10.1
+Flask-Cors==2.1.2
+gunicorn==19.6.0
+mongomock==3.6.0
+PyJWT==1.4.2
+pymongo[srv]==3.8.0
+requests==2.8.1

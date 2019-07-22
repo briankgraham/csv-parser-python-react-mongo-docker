@@ -1,0 +1,71 @@
+version: "3.7"
+
+services:
+
+  python_server:
+    build:
+      context: ./backend
+      dockerfile: ./../Dockerfile.pythonserver
+    ports:
+      - "9911:9911"
+    depends_on:
+      - mongo_db
+    links:
+      - mongo_db
+    env_file:
+      - ./.env
+    volumes:
+      - type: bind
+        source: ./backend/api
+        target: /workdir/api
+      - type: bind
+        source: ./backend/bin
+        target: /workdir/bin
+    networks:
+    - csv_server
+
+  mongo_db:
+    image: mongo
+    ports:
+    - "27017:27017"
+    networks:
+    - csv_server
+
+  web_client:
+    build:
+      context: ./client
+      dockerfile: ./../Dockerfile.webclient
+    ports:
+      - 8080:8080
+      - 9229:9229 # for attaching Chrome's inspector to a running node process (app or mocha)
+    env_file:
+      - ./.env
+    volumes:
+      # - type: bind
+      #   source: ./client/.env
+      #   target: /container/.env
+      - type: bind
+        source: ./client/src
+        target: /client/src
+      # - type: bind
+      #   source: ./__mocks__
+      #   target: /client/__mocks__
+      # - type: bind
+      #   source: ./config
+      #   target: /client/config
+      # - type: bind
+      #   source: ./docker
+      #   target: /client/docker
+      - type: bind
+        source: ./client/package.json
+        target: /client/package.json
+      - type: bind
+        source: ./client/yarn.lock
+        target: /client/yarn.lock
+      - ./client:/container:rw
+    networks:
+    - csv_server
+
+networks:
+  csv_server:
+    driver: bridge

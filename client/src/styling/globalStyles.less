@@ -1,0 +1,54 @@
+@import "./globals.less";
+
+body, html {
+  height: 100%;
+  box-sizing: border-box;
+  letter-spacing: 0.04rem;
+  font-weight: 300;
+}
+
+.brand-color {
+  background-color: @brand-color;
+}
+
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+.full-height {
+  height: 100vh;
+}
+
+.text-align-right {
+  text-align: right;
+}
+.center-text {
+  text-align: center;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.flex-align-center-vert {
+  display: flex;
+  align-items: center;
+}
+
+// Given header text, a line will be on the left/right side of the text, vertically centered.
+.header-with-line {
+  margin-top: 5 * @grid-unit;
+  border-bottom: 1px solid lightblue;
+  line-height: 0.1rem;
+  text-align: center;
+}
+
+.use-the-hand {
+  cursor: pointer;
+}
+
+.default-pointer {
+  cursor: default !important; // to override an style related to the cursor
+}

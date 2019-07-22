@@ -1,0 +1,24 @@
+FROM node:8.10-alpine
+
+RUN apk add --no-cache bash git python make g++ bash yarn
+
+# First install NPM dependencies
+RUN mkdir -p /tmp/dependencies
+COPY package.json /tmp/dependencies/package.json
+COPY yarn.lock /tmp/dependencies/yarn.lock
+COPY .babelrc /tmp/dependencies/.babelrc
+RUN cd /tmp/dependencies; yarn install && \
+  mkdir -p /client && \
+  mv /tmp/dependencies/node_modules /client/. && \
+  rm -rf /tmp/dependencies
+
+# Slim down container
+RUN apk del bash python make g++
+
+# Now add code (changes affect cache here)
+WORKDIR /client
+ADD . /client
+
+EXPOSE 8080
+
+CMD ["yarn", "run", "start:dev"]

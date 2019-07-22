@@ -1,0 +1,8 @@
+/*******************************
+        User Overrides
+*******************************/
+.ui.multiple.search.dropdown, .ui.multiple.search.dropdown>input.search,
+.ui.dropdown .menu .selected.item, .ui.dropdown.selected,
+.ui.selection.active.dropdown .menu {
+  z-index: 100; /* Ensures text goes over other items on page */
+}

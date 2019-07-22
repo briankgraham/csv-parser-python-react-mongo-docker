@@ -1,0 +1,7 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@importGoogleFonts : true;
+@googleFontFamily: '@Montserrat:@400,400i,500,500i,600,600i,700';
+@googleFontSizes   : '300,400,700,400italic,700italic';
